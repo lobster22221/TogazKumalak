@@ -91,23 +91,16 @@ public class Board
                 {
                     key.nextLine();
                     print("error, input is not a number " + Configuration.SEEDS_PER_CUP + "\n");
-                }
-               
-            }    
-            
+                }               
+            }                
             //Move beans
-            
-            
-           
-            
             return false;
         }
         else
         {
+            //exit
             return true;
         }
-        
-        
     }
     
     private int player1Score = 0;
