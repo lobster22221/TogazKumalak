@@ -9,47 +9,52 @@
  */
 public class Cup 
 {
-    /**
-     * For a cup that doesn't point to another. Also a default constructor
-     */
-    Cup()
-    {
-        nextCup = null;
-        seedCount = Configuration.SEEDS_PER_CUP;
-    }
-    /**
-     * 
-     * @param seeds If there is a need for an unusual amount of seeds
-     */
+    
+    
+    
     Cup(int seeds)
     {
-        nextCup = null;
+        this.nextCup = null;
         seedCount = seeds;
-    }
-    /**
-     * @param nextCup 
-     */
-    Cup(Cup nextCup)
-    {
-        this.nextCup = nextCup;
-        seedCount = Configuration.SEEDS_PER_CUP;
-    }
-    /**
-     * 
-     * @param seeds for unusual number of seeds
-     * @param nextCup when seeds are moved, they are moved to this cup
-     */
-    Cup(int seeds, Cup nextCup)
-    {
-        this.nextCup = nextCup;
-        seedCount = seeds;
-    }
-    
+        //System.out.print("call");
+    }    
     public void display()
     {
         System.out.print(" "+seedCount+" ");
     }
+    /**
+     * For when this cup is passed over while distributing seeds
+     * @param seedCount seeds remaining
+     * @param owner //Who is distributing the seeds, player 1 or 2?
+     */
+    public void dropSeed(int seedCount, int owner)
+    {
+        
+        if (seedCount >= 1)
+        {
+            //Take seed from hand, and put in this cup
+            this.seedCount++;
+            seedCount--;
+            
+            //Continue if the new seed count is greater than 0
+            if (seedCount > 0)
+            {
+                nextCup.dropSeed(seedCount, owner);
+            }
+            
+        }
+    }
+    public void setNextCup(Cup nextCup)
+    {
+        this.nextCup = nextCup;
+    }
+    public Cup getNextCup()
+    {      
+        return this.nextCup;
+    }
+    
     private Cup nextCup;
     private int seedCount;
+    private int owner;
     
 }

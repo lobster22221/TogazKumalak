@@ -17,29 +17,42 @@ public class Board
     public Board()
     {
      key = new Scanner(System.in);   
+    
+    
     player1Cup = new Cup[Configuration.CUPS_PER_SIDE];
     player2Cup = new Cup[Configuration.CUPS_PER_SIDE];
-   // player2Cup[];
+   
+    //create
         for (int i = 0; i < Configuration.CUPS_PER_SIDE;i++)
+        {            
+            player1Cup[i] = new Cup(i);            
+            player2Cup[i] = new Cup(i);
+            ///player2Cup[Configuration.CUPS_PER_SIDE-2-i].display();
+        }
+        //link
+        for (int i = 0; i < Configuration.CUPS_PER_SIDE-1; i++)
         {
             
-            player1Cup[i] = new Cup(Configuration.SEEDS_PER_CUP, player1Cup[i]);
-            player2Cup[Configuration.CUPS_PER_SIDE-1-i] = new Cup(Configuration.SEEDS_PER_CUP, player2Cup[Configuration.CUPS_PER_SIDE-1-i]);
+            player1Cup[i].setNextCup(player1Cup[i+1]);
+            player2Cup[i + 1].setNextCup(player2Cup[i]);
         }
+            player1Cup[8].setNextCup(player2Cup[8]);
+            player2Cup[0].setNextCup(player1Cup[0]);
     }
+    
+        
     
     public void display()
     {
         for (int i = 0; i < player1Cup.length;i++)
         {
-           //System.out.print(i + "\n");
+            
+            
             player1Cup[i].display();
         }
         print("\n========\n");
-        for (int i = 0; i < player2Cup.length;i++)
-        {
-            
-            player2Cup[i].display();
+        for (Cup player2Cup1 : player2Cup) {
+            player2Cup1.display();
         }
         print("\n");
     }
@@ -58,21 +71,31 @@ public class Board
             while (loop)
             {        
                 print("\nWhich slot would you like to move seeds from? (choose from 1 to " + Configuration.SEEDS_PER_CUP + ") : "); 
-                try
+                try //Make sure input is an int
                 {
                     
                 int slot = key.nextInt();
                 //Trash newline
                 key.nextLine();
-                loop = false;   
+                if ( slot < Configuration.SEEDS_PER_CUP)
+                {
+                    loop = false;  
+                }
+                else
+                {
+                    print("error, choose a number less than " + Configuration.SEEDS_PER_CUP + "\n");
+                }
+                 
                 }
                 catch (Exception e)
                 {
                     key.nextLine();
-                    print("error, choose a number less than " + Configuration.SEEDS_PER_CUP + "\n");
+                    print("error, input is not a number " + Configuration.SEEDS_PER_CUP + "\n");
                 }
                
-            }
+            }    
+            
+            //Move beans
             
             
            
