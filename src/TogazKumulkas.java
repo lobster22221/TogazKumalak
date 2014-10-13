@@ -11,7 +11,7 @@ public class TogazKumulkas {
     public static void main(String [] args)
     {
         Board b= new Board();
-        b.display();
+        while(!b.Run());
         System.out.print("\n");
                 
     }
