@@ -25,9 +25,9 @@ public class Cup
     /**
      * For when this cup is passed over while distributing seeds
      * @param seedCount seeds remaining
-     * @param owner //Who is distributing the seeds, player 1 or 2?
+     * @param player //Who is distributing the seeds, player 1 or 2?
      */
-    public void dropSeed(int seedCount, int owner)
+    public void dropSeed(int seedCount, Player player)
     {
         
         if (seedCount >= 1)
@@ -39,7 +39,7 @@ public class Cup
             //Continue if the new seed count is greater than 0
             if (seedCount > 0)
             {
-                nextCup.dropSeed(seedCount, owner);
+                nextCup.dropSeed(seedCount, player);
             }
             
         }

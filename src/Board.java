@@ -11,9 +11,14 @@
 import java.util.Scanner;
 public class Board 
 {
-    public Cup player1Cup[];
-    public Cup player2Cup[];
-    Scanner key;
+    private Player human = Player.Player1;
+    private Player computer = Player.Player2;
+    private Player whosTurn = human;
+    private Scanner key;
+    private Cup player1Cup[];
+    private Cup player2Cup[];
+    
+    
     public Board()
     {
      key = new Scanner(System.in);   
@@ -68,13 +73,14 @@ public class Board
             
             //int slot = Configuration.SEEDS_PER_CUP;
             boolean loop = true;
+            int slot = 99999;
             while (loop)
             {        
                 print("\nWhich slot would you like to move seeds from? (choose from 1 to " + Configuration.SEEDS_PER_CUP + ") : "); 
                 try //Make sure input is an int
                 {
                     
-                int slot = key.nextInt();
+                slot = key.nextInt();
                 //Trash newline
                 key.nextLine();
                 if ( slot < Configuration.SEEDS_PER_CUP)
@@ -94,6 +100,7 @@ public class Board
                 }               
             }                
             //Move beans
+            player1Cup[slot].dropSeed(slot, human);
             return false;
         }
         else
