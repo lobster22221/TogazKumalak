@@ -8,42 +8,40 @@
  * @author Michael
  */
 public class Cup 
-{
-    
-    
-    
-    Cup(int seeds)
+{   
+    Cup(int seeds, Player owner)
     {
         this.nextCup = null;
         seedCount = seeds;
+        this.owner = owner;
         //System.out.print("call");
     }    
     public void display()
     {
         System.out.print(" "+seedCount+" ");
     }
+    
     /**
-     * For when this cup is passed over while distributing seeds
-     * @param seedCount seeds remaining
-     * @param player //Who is distributing the seeds, player 1 or 2?
+     * Place cup contents in hand
+     * @return the amount of seeds in the cup before being emptied
      */
-    public void dropSeed(int seedCount, Player player)
+    public int emptyCup()
     {
-        
-        if (seedCount >= 1)
-        {
-            //Take seed from hand, and put in this cup
-            this.seedCount++;
-            seedCount--;
-            
-            //Continue if the new seed count is greater than 0
-            if (seedCount > 0)
-            {
-                nextCup.dropSeed(seedCount, player);
-            }
-            
-        }
+        int count = seedCount;
+        seedCount = 0;
+        return count;
     }
+    
+    public void dropSeed()
+    {
+        seedCount++;
+    }
+    
+    public int getSeedCount()
+    {
+        return seedCount;
+    }
+        
     public void setNextCup(Cup nextCup)
     {
         this.nextCup = nextCup;
@@ -53,8 +51,21 @@ public class Cup
         return this.nextCup;
     }
     
+    public Player getOwner()
+    {
+        return owner;
+    }
+    public void setIsHome(boolean b)
+    {
+        isHome = b;
+    }
+    public boolean isHome()
+    {
+        return isHome;
+    }
     private Cup nextCup;
     private int seedCount;
-    private int owner;
+    private Player owner;
+    private boolean isHome = false;
     
 }

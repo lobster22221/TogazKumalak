@@ -10,5 +10,5 @@ public class Configuration
 {
     final static String PROJECT_NAME = "TOGUZ TUMULAK";
     final static int CUPS_PER_SIDE = 9;
-    final static int SEEDS_PER_CUP = 9;
+    final static int SEEDS_PER_CUP = 3;
 }

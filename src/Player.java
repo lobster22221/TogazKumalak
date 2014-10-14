@@ -8,7 +8,41 @@
  * @author Michael
  */
 
-public enum Player
+public class Player
 {
-    Player1, Player2;
+    private boolean computer;
+    private int score = 0;
+    private boolean hasHome = false;
+    public Player(boolean isComputer)
+    {
+        computer = isComputer;
+        score = 0;
+    }
+    
+    public void addScore(int value)
+    {
+        score += value;
+    }
+    
+    public int getScore()
+    {
+        return score;
+    }
+    public void resetScore()
+    {
+        score = 0;
+    }
+    public boolean isComputer()
+    {
+        return computer;
+    }
+    public boolean hasHome()
+    {
+        return hasHome;
+    }
+    
+    public void addHome()
+    {
+        hasHome = true;
+    }
 }
