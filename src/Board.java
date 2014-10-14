@@ -56,10 +56,12 @@ public class Board
             
             player1Cup[i].display();
         }
+        print("   Player 1 Score: " + human.getScore());
         print("\n===========================\n");
         for (Cup player2Cup1 : player2Cup) {
             player2Cup1.display();
         }
+        print("   Player 2 Score: " + computer.getScore());
         print("\n");
     }
     
@@ -141,11 +143,11 @@ public class Board
             {
                 owner.addScore(c.emptyCup());
             }
-            if(c.getSeedCount() == 3)
+            else if(c.getSeedCount() == 3)//check for new home
             {
-                if(owner.hasHome() == false)
+                if(owner.hasHome() == false) //Cannot have more than 1 home
                 {
-                    if(c != player1Cup[Configuration.CUPS_PER_SIDE-1] && c!= player2Cup[0]) //if cup is not in the last slot of either side due to obscure rule
+                    if(c != player1Cup[0] && c!= player2Cup[Configuration.CUPS_PER_SIDE-1]) //if cup is not in the last slot of either side due to obscure rule
                     {
                         print("Home added\n");
                         c.setIsHome(true);
