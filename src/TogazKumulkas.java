@@ -11,7 +11,8 @@ public class TogazKumulkas {
     public static void main(String [] args)
     {
         Board b= new Board();
-        while(!b.Run());
+        b.setVisible(true);
+        //while(!b.Run());
         System.out.print("\n");
                 
     }

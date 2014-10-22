@@ -7,9 +7,9 @@
  *
  * @author Michael
  */
-
+import javax.swing.*;
 import java.util.Scanner;
-public class Board 
+public class Board extends JFrame
 {
     private Player human;
     private Player computer;
@@ -165,6 +165,8 @@ public class Board
     
     public static void print(String message)
     {
+        
         System.out.print(message);
     }
+    
 }
