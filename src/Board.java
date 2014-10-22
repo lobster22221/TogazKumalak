@@ -8,8 +8,9 @@
  * @author Michael
  */
 import javax.swing.*;
+import java.awt.*;
 import java.util.Scanner;
-public class Board extends JFrame
+public class Board extends JPanel
 {
     private Player human;
     private Player computer;
@@ -47,9 +48,12 @@ public class Board extends JFrame
     }
     
         
-    
+    /**
+     * This will be replaced by repaint()
+     */
     public void display()
     {
+       
         for (int i = 0; i < player1Cup.length;i++)
         {
             
@@ -65,9 +69,16 @@ public class Board extends JFrame
         print("\n");
     }
     
+    public void paint(Graphics g)
+    {
+        Graphics2D g2 = (Graphics2D) g;
+		super.paintComponent(g2);
+        g.drawString("Testing", 100, 75);
+    }
     public boolean Run()
     {
         display();
+        repaint();
         print("It is your turn. Continue game Y/N: ");
         String userInput = key.nextLine();
         if (userInput.toUpperCase().equals("Y"))

@@ -10,10 +10,17 @@
 public class TogazKumulkas {
     public static void main(String [] args)
     {
-        Board b= new Board();
-        b.setVisible(true);
+        String input = "go";
+        System.out.print("h");
+        
+        MyFrame f = new MyFrame();
+        
+        f.setVisible(true);
+        while(input != "quit")
+        {
+            
+        }
         //while(!b.Run());
-        System.out.print("\n");
                 
     }
     

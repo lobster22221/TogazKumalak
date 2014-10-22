@@ -20,7 +20,17 @@ public class MyFrame extends JFrame
     
     MyFrame()
     {
-       
+        this.setTitle("Togaz Kumulak");
+        this.setSize(500,500);
+        this.setVisible(true);
+        
+        vBoard = new Board();
+        
+    }
+    
+    public void update()
+    {
+        repaint();
     }
     
     private class TextFieldListener implements ActionListener
@@ -28,6 +38,8 @@ public class MyFrame extends JFrame
 		public void actionPerformed(ActionEvent event)
 		{
 			String input = inputString.getText();
+                        
+                        
 		}
 	}
 }
