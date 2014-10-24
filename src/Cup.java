@@ -16,9 +16,9 @@ public class Cup
         this.owner = owner;
         //System.out.print("call");
     }    
-    public void display()
+    public String display()
     {
-        System.out.print(" "+seedCount+" ");
+        return (" "+seedCount+" ");
     }
     
     /**

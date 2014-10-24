@@ -51,82 +51,75 @@ public class Board extends JPanel
     /**
      * This will be replaced by repaint()
      */
-    public void display()
+    public String display()
     {
-       
+        
+        String s = "";
         for (int i = 0; i < player1Cup.length;i++)
         {
-            
-            
-            player1Cup[i].display();
+            s+=(player1Cup[i].display());
         }
-        print("   Player 1 Score: " + human.getScore());
-        print("\n===========================\n");
+        s +=  "   Player 1 Score: " + human.getScore() 
+        +"\n===========================\n";
         for (Cup player2Cup1 : player2Cup) {
-            player2Cup1.display();
+        s +=player2Cup1.display();
         }
-        print("   Player 2 Score: " + computer.getScore());
-        print("\n");
-    }
+        s += "   Player 2 Score: " + computer.getScore();
+        return s;
+        //print("\n"); 
     
-    public void paint(Graphics g)
-    {
-        Graphics2D g2 = (Graphics2D) g;
-		super.paintComponent(g2);
-        g.drawString("Testing", 100, 75);
+    
     }
     public boolean Run()
     {
-        display();
-        repaint();
-        print("It is your turn. Continue game Y/N: ");
-        String userInput = key.nextLine();
-        if (userInput.toUpperCase().equals("Y"))
-        {
-            //run
-            
-            //int slot = Configuration.SEEDS_PER_CUP;
-            boolean loop = true;
-            int slot = 99999;
-            while (loop)
-            {        
-                print("\nWhich slot would you like to move seeds from? (choose from 1 to " + Configuration.SEEDS_PER_CUP + ") : "); 
-                try //Make sure input is an int
+        boolean loop = true;
+        int slot = 99999;
+        while (loop)
+        {            try //Make sure input is an int
+            {
+                slot = this.getUserInput();
+                if (slot == -1)
                 {
-                    
-                slot = key.nextInt();
-                //Trash newline
-                key.nextLine();
+                    System.exit(1);
+                    return true;
+                }
+                else
+                {
+                    slot--;
+                }
                 if ( slot < Configuration.CUPS_PER_SIDE)
                 {
                     loop = false;  
                 }
                 else
                 {
-                    print("error, choose a number less than " + Configuration.CUPS_PER_SIDE + "\n");
+                    System.out.print("error, choose a number less than " + Configuration.CUPS_PER_SIDE + "\n");
                 }
-                 
-                }
-                catch (Exception e)
-                {
-                    key.nextLine();
-                    print("error, input is not a number " + Configuration.CUPS_PER_SIDE + "\n");
-                }   
-                
                 if (player1Cup[slot].getSeedCount() == 0)
                 {
-                    print("error, slot is empty\n");
+                    System.out.print("error, slot is empty\n");
                     loop = true;
                 }
-            }  
-            dropSeed(human, player1Cup[slot]);
-            return false;
+            }
+                catch (Exception e)
+                {                
+                    slot = 9999;
+                    System.out.print("error, input is not a number " + Configuration.CUPS_PER_SIDE + "\n");
+                }   
+            
+            
+            
         }
-        else
-        {
-            //exit
-            return true;
-        }
+        dropSeed(human, player1Cup[slot]);
+        repaint();
+        return false;
+    }
+    public int getUserInput()
+    {
+        int slot = 9999;
+        String s = JOptionPane.showInputDialog("Enter a string between 1 and " + Configuration.CUPS_PER_SIDE + "  Enter -1 to Exit.");
+        slot = Integer.parseInt(s);
+        return slot;
     }
     
     public void dropSeed(Player owner, Cup start)
@@ -160,7 +153,7 @@ public class Board extends JPanel
                 {
                     if(c != player1Cup[0] && c!= player2Cup[Configuration.CUPS_PER_SIDE-1]) //if cup is not in the last slot of either side due to obscure rule
                     {
-                        print("Home added\n");
+                        //print("Home added\n");
                         c.setIsHome(true);
                         owner.addHome();
                         owner.addScore(c.emptyCup());
@@ -174,7 +167,7 @@ public class Board extends JPanel
     boolean end = false;
     final static int totalScore = Configuration.CUPS_PER_SIDE * Configuration.SEEDS_PER_CUP;
     
-    public static void print(String message)
+    public static void print(String message, int positionX, int positionY)
     {
         
         System.out.print(message);

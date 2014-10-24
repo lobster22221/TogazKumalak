@@ -7,17 +7,22 @@
  *
  * @author Michael
  */
+import javax.swing.*;
+import java.awt.event.*;
+
+
 public class TogazKumulkas {
     public static void main(String [] args)
     {
-        String input = "go";
-        System.out.print("h");
+        boolean exit = false;
         
         MyFrame f = new MyFrame();
-        
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         f.setVisible(true);
-        while(input != "quit")
+        while(!exit)
         {
+            exit = f.update();
             
         }
         //while(!b.Run());
