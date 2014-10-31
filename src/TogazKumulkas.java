@@ -14,19 +14,12 @@ import java.awt.event.*;
 public class TogazKumulkas {
     public static void main(String [] args)
     {
-        boolean exit = false;
         
         MyFrame f = new MyFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
         f.setVisible(true);
-        while(!exit)
-        {
-            exit = f.update();
-            
-        }
-        //while(!b.Run());
-                
+        
     }
     
 }

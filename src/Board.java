@@ -10,6 +10,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.Scanner;
+import java.awt.event.*;
+import java.util.Random;
+
 public class Board extends JPanel
 {
     private Player human;
@@ -18,12 +21,14 @@ public class Board extends JPanel
     private Scanner key;
     private Cup player1Cup[];
     private Cup player2Cup[];
-    
+    private String input = "";
+    private Random r;
+     Cup Clicked = null;
     
     public Board()
     {
      key = new Scanner(System.in);   
-    
+     r = new Random(4);
     human = new Player(false);
     computer = new Player(true);
     player1Cup = new Cup[Configuration.CUPS_PER_SIDE];
@@ -32,8 +37,8 @@ public class Board extends JPanel
     //create
         for (int i = 0; i < Configuration.CUPS_PER_SIDE;i++)
         {            
-            player1Cup[i] = new Cup(Configuration.SEEDS_PER_CUP, human);            
-            player2Cup[i] = new Cup(Configuration.SEEDS_PER_CUP, computer);
+            player1Cup[i] = new Cup(Configuration.SEEDS_PER_CUP, human, i*100+25, 100);            
+            player2Cup[i] = new Cup(Configuration.SEEDS_PER_CUP, computer, i*100+25, 200);
             ///player2Cup[Configuration.CUPS_PER_SIDE-2-i].display();
         }
         //link
@@ -45,6 +50,7 @@ public class Board extends JPanel
         }
             player1Cup[8].setNextCup(player2Cup[8]);
             player2Cup[0].setNextCup(player1Cup[0]);
+            repaint();
     }
     
         
@@ -64,7 +70,7 @@ public class Board extends JPanel
         for (Cup player2Cup1 : player2Cup) {
         s +=player2Cup1.display();
         }
-        s += "   Player 2 Score: " + computer.getScore();
+        s += "   Player 2 Score: " + computer.getScore() + "\n";
         return s;
         //print("\n"); 
     
@@ -72,55 +78,49 @@ public class Board extends JPanel
     }
     public boolean Run()
     {
-        boolean loop = true;
-        int slot = 99999;
-        while (loop)
-        {            try //Make sure input is an int
+       // dropSeed(human, player1Cup[slot]);
+        if(Clicked != null && Clicked.getOwner() == human)
+        {
+        dropSeed(human, Clicked);
+        }
+        int cpuInput = (int)(r.nextInt(Configuration.CUPS_PER_SIDE) );
+       System.out.print("\n" +cpuInput + "\n");
+        boolean end = false;
+        if (player2Cup[cpuInput].getSeedCount() > 0)
+        {
+            dropSeed(computer, player2Cup[cpuInput]);
+        }
+        else
+        {
+            for(int i = 0; i < Configuration.CUPS_PER_SIDE; i++)
             {
-                slot = this.getUserInput();
-                if (slot == -1)
+                
+                if (player2Cup[i].getSeedCount() > 0)
                 {
-                    System.exit(1);
-                    return true;
-                }
-                else
-                {
-                    slot--;
-                }
-                if ( slot < Configuration.CUPS_PER_SIDE)
-                {
-                    loop = false;  
-                }
-                else
-                {
-                    System.out.print("error, choose a number less than " + Configuration.CUPS_PER_SIDE + "\n");
-                }
-                if (player1Cup[slot].getSeedCount() == 0)
-                {
-                    System.out.print("error, slot is empty\n");
-                    loop = true;
+                        dropSeed(computer, player2Cup[cpuInput]);
+                        break;
                 }
             }
-                catch (Exception e)
-                {                
-                    slot = 9999;
-                    System.out.print("error, input is not a number " + Configuration.CUPS_PER_SIDE + "\n");
-                }   
-            
-            
-            
         }
-        dropSeed(human, player1Cup[slot]);
         repaint();
         return false;
     }
+    
     public int getUserInput()
     {
         int slot = 9999;
-        String s = JOptionPane.showInputDialog("Enter a string between 1 and " + Configuration.CUPS_PER_SIDE + "  Enter -1 to Exit.");
-        slot = Integer.parseInt(s);
+        try
+        {
+        slot = Integer.parseInt(input);
+        }
+        catch(Exception e)
+        {
+            System.out.print("Not a number, choosing error value\n");
+            return 0;
+        }
         return slot;
     }
+            
     
     public void dropSeed(Player owner, Cup start)
     {
@@ -167,10 +167,55 @@ public class Board extends JPanel
     boolean end = false;
     final static int totalScore = Configuration.CUPS_PER_SIDE * Configuration.SEEDS_PER_CUP;
     
-    public static void print(String message, int positionX, int positionY)
+    public void paintComponent(Graphics g)
     {
+        Graphics2D g2 = (Graphics2D) g;
+        super.paintComponents(g2);
         
-        System.out.print(message);
+        int row = 100;
+        String d = display();
+        for(String s : d.split("\n"))
+        {
+            //g2.drawString(s, 100, row +=50);
+        }
+        for (int i = 0; i < player1Cup.length;i++)
+        {
+            //g2.drawRect(325, 020, 300, 100);
+            g2.drawString("Player 1 Score: " + human.getScore(),450-15, 50);
+            player1Cup[i].display(g2);
+            player2Cup[i].display(g2);
+            g2.drawRect(325, 450, 300, 400);
+            g2.drawString("Player 2 Score: " + computer.getScore(),450-15, 350);
+            
+        }
+ 
+            System.out.print("\n");      
+         
+        
+	}
+    public void setInput(String s)
+    {
+        this.input = s;
     }
-    
+    public String getInput()
+    {
+        return this.input;
+    }
+    public Cup isMouseIntercepted(Point P)
+    {
+        Cup c = null;
+        for (int i = 0; i < this.player1Cup.length;i++)
+        {
+            if (player1Cup[i].isIntercepted(P))
+            {
+                c = player1Cup[i];
+//                System.out.print(player1Cup[i].getSeedCount());
+            }
+            if (player2Cup[2].isIntercepted(P))
+            {
+                c = player1Cup[i];
+            }
+        }
+        return c;
+    }
 }

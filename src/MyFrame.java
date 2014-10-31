@@ -11,59 +11,68 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.*;
 
 
 public class MyFrame extends JFrame
 {
     //visible components
     private Board vBoard;
-     JTextField inputString;
-    TextFieldListener textListener;
+//    JTextField inputField;
+    //TextFieldListener textListener;
     static String displayString = "";
+  //  Label insertTextLabel;
+    JPanel panel;
+     private MouseClickHandler mouseClick = new MouseClickHandler();
+   
     MyFrame()
     {
         this.setTitle("Togaz Kumulak");
-        this.setSize(500,500);
-        this.setVisible(true);
-       
+        this.setSize(Configuration.FRAME_WIDTH, Configuration.FRAME_HEIGHT);
+        //Construct components
+        Container contentPane = getContentPane();
+        contentPane.setLayout(null);
         vBoard = new Board();
-        this.vBoard.setVisible(true); 
+         this.addMouseListener(mouseClick);
+        //textListener = new TextFieldListener();
+        String s = "input goes here";
+        //inputField = new JTextField(s, s.length()-7);
+        //panel = new JPanel();
+        //panel.add(inputField);
+        
+    //    insertTextLabel = new Label("Input: ");
+//Initiate listener
+        //inputField.addActionListener(textListener);
+        //Add to frame
+//        contentPane.add(inputField);
+      //  contentPane.add(insertTextLabel);
+        contentPane.add(vBoard);
         displayString = vBoard.display();
         
-        repaint();
+        //insertTextLabel.setBounds(75,100, 100,25);
+        //inputField.setBounds(125,100, 100,25);
+        vBoard.setBounds(0,0,950,950);
         
-    }
-    @Override
-    public void paint(Graphics g)
-    {
-        //System.out.print("yeeee");
-        
-        Graphics2D g2 = (Graphics2D) g;
-        super.paintComponents(g2);
-        int row = 1;
-        for(String s : displayString.split("\n"))
-        {
-        g2.drawString(s, 100, row +=50);
-        }
-        //g2.drawString("test\nHello", 100, 200 +50);
-    }
-    public boolean update()
-    {
-//        System.out.print("update");
-        boolean exit = vBoard.Run();
-        displayString = vBoard.display();
-        
-        repaint();
-        return exit;
+        //  repaint();
+//        contentPane.repaint();
+       // panel.repaint();
+//        vBoard.repaint();
     }
     
-    private class TextFieldListener implements ActionListener
+    private class MouseClickHandler extends MouseAdapter
 	{
-		public void actionPerformed(ActionEvent event)
+		public void mouseClicked(MouseEvent event)
 		{
-			String input = inputString.getText();
-                        
-                        
+                    vBoard.Clicked = vBoard.isMouseIntercepted(event.getPoint());
+                       // System.out.print("Click");
+                        if(vBoard.Clicked!= null)
+                        {
+                         
+                            vBoard.Run();
+                        }
+                        repaint();
+
+			
 		}
 	}
 }
